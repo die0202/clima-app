@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clima App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #0078d7;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #0078d7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        .comparison-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .city-container {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f4f4f9;
+            color: #888;
+            font-size: 14px;
+        }
+
+        @media (min-width: 600px) {
+            .comparison-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .city-container {
+                flex: 1;
+                max-width: 48%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Clima App</h1>
+        <p>Compara el clima de dos ciudades</p>
+    </header>
+    <main>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="text" name="city1" id="city1" placeholder="Ciudad 1" required>
+            <input type="text" name="city2" id="city2" placeholder="Ciudad 2 (opcional)">
+            <button type="submit">Comparar Clima</button>
+        </form>
+
+        <div class="comparison-container">
+            {% if weather_data1 %}
+            <div class="city-container">
+                {% include './city_weather.html' with weather_data=weather_data1 daily_forecasts=daily_forecasts1 %}
+            </div>
+            {% endif %}
+
+            {% if weather_data2 %}
+            <div class="city-container">
+                {% include './city_weather.html' with weather_data=weather_data2 daily_forecasts=daily_forecasts2 %}
+            </div>
+            {% endif %}
+        </div>
+    </main>
+    <footer>
+        &copy; 2024 Clima App. Todos los derechos reservados.
+    </footer>
+</body>
+</html>
